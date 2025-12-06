@@ -1,0 +1,85 @@
+-- ~/.config/nvim/lua/plugins/keys.lua
+return {
+  ---------------------------------------------------------------------------
+  --  which-key: popup for keymaps / "live cheat sheet"
+  ---------------------------------------------------------------------------
+  {
+    "folke/which-key.nvim",
+    event = "VeryLazy",
+    init = function()
+      -- required so which-key can catch mappings in time
+      vim.o.timeout = true
+      vim.o.timeoutlen = 300
+    end,
+    opts = {
+      -- you can tweak these later; defaults are already good
+      plugins = {
+        marks = true,
+        registers = true,
+        spelling = {
+          enabled = true,
+          suggestions = 20,
+        },
+        presets = {
+          operators = true,
+          motions = true,
+          text_objects = true,
+          windows = true,
+          nav = true,
+          z = true,
+          g = true,
+        },
+      },
+      window = {
+        border = "single",
+      },
+    },
+    config = function(_, opts)
+      local wk = require("which-key")
+      wk.setup(opts)
+
+      -- Group names for <leader> mappings so which-key shows nice labels.
+      wk.register({
+        f = { name = "+file" },
+        g = { name = "+git" },
+        l = { name = "+lsp" },
+        s = { name = "+search" },
+        t = { name = "+tabs/term" },
+      }, { prefix = "<leader>" })
+
+      -- Handy: show buffer-local keymaps with <leader>?
+      vim.keymap.set("n", "<leader>?", function()
+        wk.show({ global = false })
+      end, { desc = "Buffer-local keymaps (which-key)" })
+    end,
+  },
+
+  ---------------------------------------------------------------------------
+  --  cheatsheet.nvim: optional, searchable cheatsheet (Telescope UI)
+  ---------------------------------------------------------------------------
+  {
+    "sudormrfbin/cheatsheet.nvim",
+    cmd = "Cheatsheet",
+    dependencies = {
+      "nvim-lua/plenary.nvim",
+      "nvim-lua/popup.nvim",
+      "nvim-telescope/telescope.nvim", -- optional but recommended
+    },
+    config = function()
+      require("cheatsheet").setup({
+        -- enable bundled sheets (vim basics, plugins, nerd fonts, etc.)
+        bundled_cheatsheets = {
+          -- you can disable ones you don’t care about
+          enabled = { "default", "unicode", "regex", "nerd-fonts" },
+          disabled = {},
+        },
+        bundled_plugin_cheatsheets = {
+          -- these depend on what you use; adjust later if you want
+          enabled = { "telescope.nvim", "gitsigns.nvim", "nvim-tree.lua" },
+          disabled = {},
+        },
+      })
+    end,
+  },
+}
+
