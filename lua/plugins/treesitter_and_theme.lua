@@ -45,6 +45,8 @@ return {
     config = function(_, opts)
       require("tokyonight").setup(opts)
       vim.cmd.colorscheme("tokyonight")
+      vim.o.cursorline = true
+      vim.api.nvim_set_hl(0, "CursorLine", { bg = "#1a2a1a" })
     end,
   },
 }

@@ -17,8 +17,11 @@ vim.opt.rtp:prepend(lazypath)
 
 -- 2. Set some sane basics ---------------------------------------------------
 vim.g.mapleader = " "
+vim.keymap.set("n", "<leader>w", "<C-w>", { desc = "Window" })
 vim.o.number = true
 vim.o.relativenumber = true
+vim.o.smoothscroll = true
+vim.o.wrap = false
 
 -- 3. Load plugins -----------------------------------------------------------
 require("lazy").setup("plugins")
