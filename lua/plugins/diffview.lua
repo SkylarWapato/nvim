@@ -34,6 +34,7 @@ return {
     { "<leader>gH", "<cmd>DiffviewFileHistory<cr>", desc = "Diffview: Branch history" },
     { "<leader>cch", "<cmd>DiffviewClose<cr>", desc = "Diffview: Close" },
     { "<leader>ch", diff_since_push, desc = "Diffview: Changes since last push" },
+    { "<leader>lch", "<cmd>DiffviewOpen<cr>", desc = "Diffview: Changes since last commit" },
     { "<leader>bch", diff_branch, desc = "Diffview: Compare to branch" },
     -- { "<leader>we", "<C-w>l<C-w>l", desc = "Jump to editable diff panel" },
     -- { "<leader>qw", "<C-w>l", desc = "Jump to read-only diff panel" },
