@@ -4,10 +4,14 @@ return {
   -- Treesitter: modern syntax highlighting
   ---------------------------------------------------------------------------
   {
+    -- "master" is unmaintained and breaks on current Neovim (its bundled
+    -- injection queries crash the builtin highlighter); "main" is the
+    -- actively maintained branch with a new, more minimal config API.
     "nvim-treesitter/nvim-treesitter",
+    branch = "main",
     build = ":TSUpdate",
-    opts = {
-      ensure_installed = {
+    config = function()
+      local parsers = {
         "lua",
         "vim",
         "vimdoc",
@@ -18,17 +22,16 @@ return {
         "rust",
         "toml",
         "yaml",
-      },
-      highlight = {
-        enable = true,
-        additional_vim_regex_highlighting = false,
-      },
-      indent = {
-        enable = true,
-      },
-    },
-    config = function(_, opts)
-      require("nvim-treesitter.configs").setup(opts)
+      }
+      require("nvim-treesitter").install(parsers):wait(300000)
+
+      vim.api.nvim_create_autocmd("FileType", {
+        pattern = { "lua", "vim", "help", "sh", "markdown", "json", "rust", "toml", "yaml" },
+        callback = function()
+          vim.treesitter.start()
+          vim.bo.indentexpr = "v:lua.require'nvim-treesitter'.indentexpr()"
+        end,
+      })
     end,
   },
 

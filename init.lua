@@ -22,6 +22,7 @@ vim.o.number = true
 vim.o.relativenumber = true
 vim.o.smoothscroll = true
 vim.o.wrap = false
+require("notes")
 
 -- 3. Load plugins -----------------------------------------------------------
 require("lazy").setup("plugins")
