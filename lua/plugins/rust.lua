@@ -1,4 +1,5 @@
 -- ~/.config/nvim/lua/plugins/rust.lua
+local keymaps = require("keymaps")
 return {
   "mrcjkb/rustaceanvim",
   version = "^5", -- keep it stable-ish
@@ -7,10 +8,12 @@ return {
     vim.g.rustaceanvim = {
       server = {
         on_attach = function(_, bufnr)
-          local opts = { buffer = bufnr, noremap = true, silent = true }
-          vim.keymap.set("n", "gd", vim.lsp.buf.definition, opts)
-          vim.keymap.set("n", "K", vim.lsp.buf.hover, opts)
-          vim.keymap.set("n", "<leader>rn", vim.lsp.buf.rename, opts)
+          local function map(entry, rhs)
+            vim.keymap.set("n", entry.keys, rhs, { buffer = bufnr, noremap = true, silent = true, desc = entry.desc })
+          end
+          map(keymaps.lsp_definition, vim.lsp.buf.definition)
+          map(keymaps.lsp_hover, vim.lsp.buf.hover)
+          map(keymaps.lsp_rename, vim.lsp.buf.rename)
         end,
         default_settings = {
           ["rust-analyzer"] = {

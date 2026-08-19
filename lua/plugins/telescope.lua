@@ -1,4 +1,5 @@
 -- ~/.config/nvim/lua/plugins/telescope.lua
+local keymaps = require("keymaps")
 return {
   "nvim-telescope/telescope.nvim",
   dependencies = {
@@ -7,12 +8,12 @@ return {
   },
   cmd = { "Telescope" },
   keys = {
-    { "<leader>ff", "<cmd>Telescope find_files<cr>", desc = "Find files" },
-    { "<leader>fv", "<cmd>vsplit | Telescope find_files<cr>", desc = "Find files (vsplit)" },
-    { "<leader>fs", "<cmd>split | Telescope find_files<cr>", desc = "Find files (split)" },
-    { "<leader>fg", "<cmd>Telescope live_grep<cr>", desc = "Live grep" },
-    { "<leader>fb", "<cmd>Telescope buffers<cr>", desc = "Buffers" },
-    { "<leader>fh", "<cmd>Telescope help_tags<cr>", desc = "Help tags" },
+    { keymaps.find_files.keys, "<cmd>Telescope find_files<cr>", desc = keymaps.find_files.desc },
+    { keymaps.find_files_vsplit.keys, "<cmd>vsplit | Telescope find_files<cr>", desc = keymaps.find_files_vsplit.desc },
+    { keymaps.find_files_split.keys, "<cmd>split | Telescope find_files<cr>", desc = keymaps.find_files_split.desc },
+    { keymaps.live_grep.keys, "<cmd>Telescope live_grep<cr>", desc = keymaps.live_grep.desc },
+    { keymaps.buffers.keys, "<cmd>Telescope buffers<cr>", desc = keymaps.buffers.desc },
+    { keymaps.help_tags.keys, "<cmd>Telescope help_tags<cr>", desc = keymaps.help_tags.desc },
   },
   opts = {
     defaults = {

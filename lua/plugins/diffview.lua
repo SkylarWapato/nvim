@@ -24,18 +24,19 @@ local function diff_branch()
   end)
 end
 
+local keymaps = require("keymaps")
 return {
   "sindrets/diffview.nvim",
   dependencies = { "nvim-tree/nvim-web-devicons" },
   cmd = { "DiffviewOpen", "DiffviewFileHistory", "DiffviewClose" },
   keys = {
-    { "<leader>gd", "<cmd>DiffviewOpen<cr>", desc = "Diffview: Open" },
-    { "<leader>gh", "<cmd>DiffviewFileHistory %<cr>", desc = "Diffview: File history" },
-    { "<leader>gH", "<cmd>DiffviewFileHistory<cr>", desc = "Diffview: Branch history" },
-    { "<leader>cch", "<cmd>DiffviewClose<cr>", desc = "Diffview: Close" },
-    { "<leader>ch", diff_since_push, desc = "Diffview: Changes since last push" },
-    { "<leader>lch", "<cmd>DiffviewOpen<cr>", desc = "Diffview: Changes since last commit" },
-    { "<leader>bch", diff_branch, desc = "Diffview: Compare to branch" },
+    { keymaps.diff_open.keys, "<cmd>DiffviewOpen<cr>", desc = keymaps.diff_open.desc },
+    { keymaps.diff_file_history.keys, "<cmd>DiffviewFileHistory %<cr>", desc = keymaps.diff_file_history.desc },
+    { keymaps.diff_branch_history.keys, "<cmd>DiffviewFileHistory<cr>", desc = keymaps.diff_branch_history.desc },
+    { keymaps.diff_close.keys, "<cmd>DiffviewClose<cr>", desc = keymaps.diff_close.desc },
+    { keymaps.diff_since_push.keys, diff_since_push, desc = keymaps.diff_since_push.desc },
+    { keymaps.diff_since_commit.keys, "<cmd>DiffviewOpen<cr>", desc = keymaps.diff_since_commit.desc },
+    { keymaps.diff_vs_branch.keys, diff_branch, desc = keymaps.diff_vs_branch.desc },
     -- { "<leader>we", "<C-w>l<C-w>l", desc = "Jump to editable diff panel" },
     -- { "<leader>qw", "<C-w>l", desc = "Jump to read-only diff panel" },
     -- { "<leader>ww", "<C-w>h<C-w>h", desc = "Jump to file picker" },

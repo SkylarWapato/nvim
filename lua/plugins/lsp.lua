@@ -1,4 +1,5 @@
 -- ~/.config/nvim/lua/plugins/lsp.lua
+local keymaps = require("keymaps")
 return {
   {
     -- Mason: manages external tools (LSPs, formatters, etc.)
@@ -39,17 +40,19 @@ return {
 
       -- LSP keymaps (run whenever a client attaches)
       local on_attach = function(_, bufnr)
-        local opts = { buffer = bufnr, noremap = true, silent = true }
-        vim.keymap.set("n", "gd", vim.lsp.buf.definition, opts)
-        vim.keymap.set("n", "K", vim.lsp.buf.hover, opts)
-        vim.keymap.set("n", "gr", vim.lsp.buf.references, opts)
-        vim.keymap.set("n", "<leader>rn", vim.lsp.buf.rename, opts)
-        vim.keymap.set("n", "<leader>ca", vim.lsp.buf.code_action, opts)
-        vim.keymap.set("n", "[d", vim.diagnostic.goto_prev, opts)
-        vim.keymap.set("n", "]d", vim.diagnostic.goto_next, opts)
-        vim.keymap.set("n", "<leader>th", function()
+        local function map(entry, rhs)
+          vim.keymap.set("n", entry.keys, rhs, { buffer = bufnr, noremap = true, silent = true, desc = entry.desc })
+        end
+        map(keymaps.lsp_definition, vim.lsp.buf.definition)
+        map(keymaps.lsp_hover, vim.lsp.buf.hover)
+        map(keymaps.lsp_references, vim.lsp.buf.references)
+        map(keymaps.lsp_rename, vim.lsp.buf.rename)
+        map(keymaps.lsp_code_action, vim.lsp.buf.code_action)
+        map(keymaps.lsp_prev_diagnostic, vim.diagnostic.goto_prev)
+        map(keymaps.lsp_next_diagnostic, vim.diagnostic.goto_next)
+        map(keymaps.lsp_toggle_inlay_hints, function()
           vim.lsp.inlay_hint.enable(not vim.lsp.inlay_hint.is_enabled())
-        end, opts)
+        end)
       end
 
       -- Capabilities (for nvim-cmp)

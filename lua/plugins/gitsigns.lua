@@ -1,3 +1,4 @@
+local keymaps = require("keymaps")
 return {
   "lewis6991/gitsigns.nvim",
   event = { "BufReadPre", "BufNewFile" },
@@ -10,6 +11,6 @@ return {
     },
   },
   keys = {
-    { "<leader>gb", "<cmd>Gitsigns toggle_current_line_blame<cr>", desc = "Toggle git blame" },
+    { keymaps.git_blame.keys, "<cmd>Gitsigns toggle_current_line_blame<cr>", desc = keymaps.git_blame.desc },
   },
 }
