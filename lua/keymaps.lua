@@ -25,6 +25,8 @@ return {
   diff_since_commit = { keys = "<leader>lch", desc = "Diffview: changes since last commit", group = "Git" },
   diff_vs_branch = { keys = "<leader>bch", desc = "Diffview: compare to branch", group = "Git" },
   diff_since_save = { keys = "<leader>df", desc = "Toggle diff against last saved version", group = "Git" },
+  diff_focus_right = { keys = "<leader>rt", desc = "Diffview: focus right pane (else: rightmost window)", group = "Git" },
+  diff_focus_left = { keys = "<leader>lt", desc = "Diffview: focus left pane", group = "Git" },
 
   lsp_definition = { keys = "gd", desc = "Go to definition", group = "LSP" },
   lsp_hover = { keys = "K", desc = "Hover docs", group = "LSP" },

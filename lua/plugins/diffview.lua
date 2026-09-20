@@ -24,6 +24,45 @@ local function diff_branch()
   end)
 end
 
+-- Jumps by diffview's own layout symbols ("a" = left pane, "b" = right/
+-- current pane) rather than counting <C-w>l/<C-w>h hops, so it lands
+-- correctly regardless of which window (file panel, left, or right) you're
+-- currently in.
+local function focus_layout_win(symbol)
+  local view = require("diffview.lib").get_current_view()
+  if not view or not view.cur_layout then
+    vim.notify("Not in a Diffview", vim.log.levels.WARN)
+    return
+  end
+  local win = view.cur_layout[symbol]
+  if win and win:is_valid() then
+    vim.api.nvim_set_current_win(win.id)
+  end
+end
+
+-- Outside a Diffview, <leader>rt has no layout to target, so just hop to
+-- the rightmost window instead.
+local function goto_rightmost_win()
+  local cur = vim.api.nvim_get_current_win()
+  while true do
+    vim.cmd("wincmd l")
+    local new = vim.api.nvim_get_current_win()
+    if new == cur then
+      break
+    end
+    cur = new
+  end
+end
+
+local function focus_right()
+  local view = require("diffview.lib").get_current_view()
+  if view and view.cur_layout then
+    focus_layout_win("b")
+  else
+    goto_rightmost_win()
+  end
+end
+
 local keymaps = require("keymaps")
 return {
   "sindrets/diffview.nvim",
@@ -37,9 +76,8 @@ return {
     { keymaps.diff_since_push.keys, diff_since_push, desc = keymaps.diff_since_push.desc },
     { keymaps.diff_since_commit.keys, "<cmd>DiffviewOpen<cr>", desc = keymaps.diff_since_commit.desc },
     { keymaps.diff_vs_branch.keys, diff_branch, desc = keymaps.diff_vs_branch.desc },
-    -- { "<leader>we", "<C-w>l<C-w>l", desc = "Jump to editable diff panel" },
-    -- { "<leader>qw", "<C-w>l", desc = "Jump to read-only diff panel" },
-    -- { "<leader>ww", "<C-w>h<C-w>h", desc = "Jump to file picker" },
+    { keymaps.diff_focus_right.keys, focus_right, desc = keymaps.diff_focus_right.desc },
+    { keymaps.diff_focus_left.keys, function() focus_layout_win("a") end, desc = keymaps.diff_focus_left.desc },
   },
   opts = {
     enhanced_diff_hl = true,
