@@ -27,6 +27,7 @@ return {
   diff_since_save = { keys = "<leader>df", desc = "Toggle diff against last saved version", group = "Git" },
   diff_focus_right = { keys = "<leader>rt", desc = "Diffview: focus right pane (else: rightmost window)", group = "Git" },
   diff_focus_left = { keys = "<leader>lt", desc = "Diffview: focus left pane", group = "Git" },
+  diff_toggle_context = { keys = "<leader>dc", desc = "Toggle diff context (full file / collapsed)", group = "Git" },
 
   lsp_definition = { keys = "gd", desc = "Go to definition", group = "LSP" },
   lsp_hover = { keys = "K", desc = "Hover docs", group = "LSP" },

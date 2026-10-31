@@ -63,6 +63,18 @@ local function focus_right()
   end
 end
 
+-- Starts at vim's default (context:6, folding unchanged lines away); toggles
+-- to a huge context so diffs show the full file with no folding, and back.
+local function toggle_diff_context()
+  if vim.tbl_contains(vim.opt.diffopt:get(), "context:999999") then
+    vim.opt.diffopt:remove("context:999999")
+    vim.notify("Diff context: collapsed", vim.log.levels.INFO)
+  else
+    vim.opt.diffopt:append("context:999999")
+    vim.notify("Diff context: full file", vim.log.levels.INFO)
+  end
+end
+
 local keymaps = require("keymaps")
 return {
   "sindrets/diffview.nvim",
@@ -78,6 +90,7 @@ return {
     { keymaps.diff_vs_branch.keys, diff_branch, desc = keymaps.diff_vs_branch.desc },
     { keymaps.diff_focus_right.keys, focus_right, desc = keymaps.diff_focus_right.desc },
     { keymaps.diff_focus_left.keys, function() focus_layout_win("a") end, desc = keymaps.diff_focus_left.desc },
+    { keymaps.diff_toggle_context.keys, toggle_diff_context, desc = keymaps.diff_toggle_context.desc },
   },
   opts = {
     enhanced_diff_hl = true,
